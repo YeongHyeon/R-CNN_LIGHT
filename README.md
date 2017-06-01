@@ -22,6 +22,7 @@
 <p>Layer2: Conv-ReLU-Pool</p>
 <p>Layer3: Conv-ReLU-Pool</p>
 <p>Layer4: Affine(Fully connected)</p>
+<p>The weights are initialized by 'He initialization'.</p>
 
 <h2>dataset_loader.py</h2>
 <p>It requires <a href="https://www.tensorflow.org/install/">TensorFlow</a></p>
