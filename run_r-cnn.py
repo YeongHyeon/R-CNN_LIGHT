@@ -152,7 +152,7 @@ def classification_by_contour(origin, imsize=28):
                         boxes.append([x, y, w, h, result, acc])
 
     #print(" %.3f [classify/sec]" %(pre_cnt/(time.time() - std_time)))
-    sys.stdout.write('%.3f [classify/sec]\r' %(pre_cnt/(time.time() - std_time)))
+    sys.stdout.write(' %.3f [classify/sec]\r' %(pre_cnt/(time.time() - std_time)))
     sys.stdout.flush()
 
     txt_color=(0, 0, 0)
@@ -160,10 +160,11 @@ def classification_by_contour(origin, imsize=28):
     boxes = sorted(boxes, key=lambda l:l[5], reverse=True)
     for b in boxes:
         x, y, w, h, result, acc = b
+        #cv2.rectangle(frame, (x,y-15), (x+w,y), (255, 255, 255), cv2.cv.CV_FILLED)
+        cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
+
         if(not((result == 0) or ((result == 1)))):
             txt_color=(0, 0, 0)
-            #cv2.rectangle(frame, (x,y-15), (x+w,y), (255, 255, 255), cv2.cv.CV_FILLED)
-            cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
             cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
             cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
 
@@ -173,8 +174,6 @@ def classification_by_contour(origin, imsize=28):
                 txt_color=(0, 0, 255)
             elif(result == 1):
                 txt_color=(255, 0, 0)
-            #cv2.rectangle(frame, (x,y-15), (x+w,y), (255, 255, 255), cv2.cv.CV_FILLED)
-            cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
             cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
             cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
 
