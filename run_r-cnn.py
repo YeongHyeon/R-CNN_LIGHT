@@ -167,7 +167,7 @@ def classification_by_contour(origin, imsize=28):
             cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
             cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
 
-        if((result == 0) or ((result == 1))):
+        elif((result == 0) or ((result == 1))):
 
             if(result == 0):
                 txt_color=(0, 0, 255)
