@@ -1,4 +1,9 @@
 <h1>R-CNN_LIGHT</h1>
+<h2>Requirments</h2>
+<p>Python 2.7</p>
+<p><a href="http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_setup/py_setup_in_windows/py_setup_in_windows.html">OpenCV</a></p>
+<p><a href="https://www.tensorflow.org/install/">TensorFlow</a></p>
+<p>Numpy, Matplotlib ....</p>
 
 <h2>common\</h2>
 <p>This directory contains several functions.</p>
@@ -16,11 +21,15 @@
 <p>It is possible to reproduce a plurality of images in one training, without training each time the image is reproduced.</p>
 
 <h2>custom_convnet.py</h2>
-<p>$python train_custom_data.py</p>
-<p>It requires <a href="https://www.tensorflow.org/install/">TensorFlow</a></p>
+<p>It contains Convolution Neural Network.</p>
+<p>The structure is as follows.</p>
+<p>Layer1: Conv-ReLU-Pool</p>
+<p>Layer2: Conv-ReLU-Pool</p>
+<p>Layer3: Conv-ReLU-Pool</p>
+<p>Layer4: Affine(Fully connected)</p>
+<p>The weights are initialized by 'He initialization'.</p>
 
 <h2>dataset_loader.py</h2>
-<p>$python train_custom_data.py</p>
 <p>It requires <a href="https://www.tensorflow.org/install/">TensorFlow</a></p>
 <p>Because useing the function 'create_image_lists'</p>
 <p>The original 'create_image_lists' function is <a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/examples/image_retraining/retrain.py">here.</a></p>
