@@ -151,15 +151,23 @@ def classification_by_contour(origin, imsize=28):
                         #image_save(label=result, matrix=origin[y:y+h, x:x+w])
                         boxes.append([x, y, w, h, result, acc])
 
-    print(" %.3f [classify/sec]" %(pre_cnt/(time.time() - std_time)))
+    #print(" %.3f [classify/sec]" %(pre_cnt/(time.time() - std_time)))
+    sys.stdout.write('%.3f [classify/sec]\r' %(pre_cnt/(time.time() - std_time)))
+    sys.stdout.flush()
 
     txt_color=(0, 0, 0)
     eye_cnt = 0
     boxes = sorted(boxes, key=lambda l:l[5], reverse=True)
     for b in boxes:
         x, y, w, h, result, acc = b
+        if(not((result == 0) or ((result == 1)))):
+            txt_color=(0, 0, 0)
+            #cv2.rectangle(frame, (x,y-15), (x+w,y), (255, 255, 255), cv2.cv.CV_FILLED)
+            cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
+            cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
+            cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
+
         if((result == 0) or ((result == 1))):
-            eye_cnt += 1
 
             if(result == 0):
                 txt_color=(0, 0, 255)
@@ -170,12 +178,10 @@ def classification_by_contour(origin, imsize=28):
             cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
             cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
 
-        else:
-            txt_color=(0, 0, 0)
-            #cv2.rectangle(frame, (x,y-15), (x+w,y), (255, 255, 255), cv2.cv.CV_FILLED)
-            cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
-            cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
-            cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
+            eye_cnt += 1
+            #if(eye_cnt > 2):
+            #    break
+
 
 
     #cv2.imshow("Thresh", thresh)
@@ -293,7 +299,7 @@ def main(source=0):
             cv2.waitKey(0)
         # press 'q' to Quit
         elif(key == ord("q")):
-    		print("QUIT")
+    		print("\nQUIT")
     		break
 
     # cleanup the camera and close any open windows
