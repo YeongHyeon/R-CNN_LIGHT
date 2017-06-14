@@ -236,37 +236,37 @@ def cnn_constructor():
             trainer.train()
             # Save parameters
             network.save_params("params/"+net_param)
+
+            # plot graphs
+            # Grpah 1: Accuracy
+            markers = {'train': 'o', 'test': 's', 'loss': 'd'}
+            x1 = np.arange(len(trainer.train_acc_list))
+            plt.clf()
+            plt.plot(x1, trainer.train_acc_list, marker='o', label='train', markevery=1)
+            plt.plot(x1, trainer.test_acc_list, marker='s', label='test', markevery=1)
+            plt.xlabel("epochs")
+            plt.ylabel("accuracy")
+            plt.ylim(0, 1.1)
+            plt.legend(loc='lower right')
+            plt.title("Accuracy")
+            now = datetime.now()
+            filename = "params/"+now.strftime('%Y%m%d_%H%M%S%f')+"_"+"ep"+".png"
+            plt.savefig(filename)
+            #plt.show()
+
+            # Graph 2: Loss
+            x2 = np.arange(len(trainer.train_loss_list))
+            plt.clf()
+            plt.plot(x2, trainer.train_loss_list, marker='o', label='loss', markevery=1)
+            plt.xlabel("iter")
+            plt.ylabel("loss")
+            plt.legend(loc='lower right')
+            plt.title("Cross entropy loss")
+            now = datetime.now()
+            filename = "params/"+now.strftime('%Y%m%d_%H%M%S%f')+"_"+"ep"+".png"
+            plt.savefig(filename)
+            #plt.show()
         print("\n* Saved Network Parameters!  -  "+net_param)
-
-        # plot graphs
-        # Grpah 1: Accuracy
-        markers = {'train': 'o', 'test': 's', 'loss': 'd'}
-        x1 = np.arange(FLAGS.train_epochs)
-        plt.clf()
-        plt.plot(x1, trainer.train_acc_list, marker='o', label='train', markevery=1)
-        plt.plot(x1, trainer.test_acc_list, marker='s', label='test', markevery=1)
-        plt.xlabel("epochs")
-        plt.ylabel("accuracy")
-        plt.ylim(0, 1.1)
-        plt.legend(loc='lower right')
-        plt.title("Accuracy")
-        now = datetime.now()
-        filename = now.strftime('%Y%m%d_%H%M%S%f')+".png"
-        plt.savefig(filename)
-        #plt.show()
-
-        # Graph 2: Loss
-        x2 = np.arange(len(trainer.train_loss_list))
-        plt.clf()
-        plt.plot(x2, trainer.train_loss_list, marker='o', label='loss', markevery=1)
-        plt.xlabel("iter")
-        plt.ylabel("loss")
-        plt.legend(loc='lower right')
-        plt.title("Cross entropy loss")
-        now = datetime.now()
-        filename = now.strftime('%Y%m%d_%H%M%S%f')+".png"
-        plt.savefig(filename)
-        #plt.show()
 
 def main(source=0):
     global frame
