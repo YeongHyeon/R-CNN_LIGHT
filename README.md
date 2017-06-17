@@ -1,4 +1,7 @@
 <h1>R-CNN_LIGHT</h1>
+
+<img src="sample.gif">
+
 <h2>Requirments</h2>
 <p>Python 2.7</p>
 <p><a href="http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_setup/py_setup_in_windows/py_setup_in_windows.html">OpenCV</a></p>
