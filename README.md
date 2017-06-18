@@ -1,6 +1,7 @@
 <h1>R-CNN_LIGHT</h1>
 
 <img src="sample.gif">
+<p>Example of eye blink recognition.</p>
 
 <h2>Requirments</h2>
 <p>Python 2.7</p>
