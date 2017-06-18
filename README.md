@@ -42,4 +42,6 @@
 <h2>run_r-cnn.py</h2>
 <p>Enter the commend on your terminal like this.</p>
 <p>$ python run_r-cnn.py</p>
-<p>$ python run_r-cnn.py -h</p>
+<p>If you want to know about options ... </br> $ python run_r-cnn.py -h</p>
+<p>To use video as source instead of webcam ... </br> $ python run_r-cnn.py --source {video source path}</p>
+<p>If you want to train for the new data ... </br> $ python run_r-cnn.py --train_epochs {How many times to repeat as a number} --batch_size {Batch processing size as a number}</p>
