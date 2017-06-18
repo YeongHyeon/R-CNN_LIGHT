@@ -2,6 +2,7 @@
 
 <img src="sample.gif">
 <p>Example of eye blink recognition.</p>
+<p>Maximum speed: 447 classification/sec</p>
 
 <h2>Requirments</h2>
 <p>Python 2.7</p>
