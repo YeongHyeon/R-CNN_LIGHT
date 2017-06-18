@@ -47,19 +47,18 @@ class ConvNet:
         # deep learning from scratch p.234
         # Layer1
         layer1_filter_num = filter_num*1
-        conv1_output_size = conv_out_size(input_size=input_size, filter_size=filter_size, filter_pad=filter_pad, filter_stride=filter_stride)
-        pool1_output_size = pool_out_size(conv_output_size=conv1_output_size, filter_pad=filter_pad, pool_size=pool_size)
+        conv1_output_size = int(conv_out_size(input_size=input_size, filter_size=filter_size, filter_pad=filter_pad, filter_stride=filter_stride))
+        pool1_output_size = int(pool_out_size(conv_output_size=conv1_output_size, filter_pad=filter_pad, pool_size=pool_size))
         # Layer2
         layer2_filter_num = filter_num*2
-        conv2_output_size = conv_out_size(input_size=pool1_output_size, filter_size=filter_size, filter_pad=filter_pad, filter_stride=filter_stride)
-        pool2_output_size = pool_out_size(conv_output_size=conv2_output_size, filter_pad=filter_pad, pool_size=pool_size)
+        conv2_output_size = int(conv_out_size(input_size=pool1_output_size, filter_size=filter_size, filter_pad=filter_pad, filter_stride=filter_stride))
+        pool2_output_size = int(pool_out_size(conv_output_size=conv2_output_size, filter_pad=filter_pad, pool_size=pool_size))
         # Layer3
         layer3_filter_num = filter_num*1
-        conv3_output_size = conv_out_size(input_size=pool2_output_size, filter_size=filter_size, filter_pad=filter_pad, filter_stride=filter_stride)
-        pool3_output_size = pool_out_size(conv_output_size=conv3_output_size, filter_pad=filter_pad, pool_size=pool_size)
+        conv3_output_size = int(conv_out_size(input_size=pool2_output_size, filter_size=filter_size, filter_pad=filter_pad, filter_stride=filter_stride))
+        pool3_output_size = int(pool_out_size(conv_output_size=conv3_output_size, filter_pad=filter_pad, pool_size=pool_size))
         # Laye4
         layer4_input_size = int(layer3_filter_num * pool3_output_size * pool3_output_size)
-
         # weight initialize with normal distribution
         self.params = {}
 
@@ -85,14 +84,14 @@ class ConvNet:
         # layer3_filter_num: number of weight filter (output tensor)
         # layer2_filter_num: input tensor
         # filter_size: weight width and height
-        print("\n Layer2: conv - relu - pool")
+        print("\n Layer3: conv - relu - pool")
         print(" filter: %d x %d | input_dim: %d | output_dim: %d" %(filter_size, filter_size, layer2_filter_num, layer3_filter_num))
         self.params['W3'] = np.random.randn(layer3_filter_num, layer2_filter_num, filter_size, filter_size) * he_stdev(layer2_filter_num)
         self.params['b3'] = np.zeros(layer3_filter_num)
         # Layer4
         # layer4_input_size: fully connected size (input matrix)
         # output_size: output (output matrix)
-        print("\n Layer3: affine")
+        print("\n Layer4: affine")
         print(" input: %d | output: %d" %(layer4_input_size, output_size))
         self.params['W4'] = weight_init_std * np.random.randn(layer4_input_size, output_size)
         self.params['b4'] = np.zeros(output_size)
