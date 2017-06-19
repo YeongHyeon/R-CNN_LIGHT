@@ -114,6 +114,11 @@ def image_save(label=None, matrix=None):
     cv2.imwrite(directory+filename, matrix)
     return directory+filename
 
+def draw_classification(frame=None, x=0, y=0, w=0, h=0, result=None, acc=None, txt_color=(0,0,0)):
+    cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
+    cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
+    cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
+
 def classification_by_contour(origin, imsize=28):
     """
     Referenced by http://docs.opencv.org/trunk/d7/d4d/tutorial_py_thresholding.html
@@ -157,31 +162,28 @@ def classification_by_contour(origin, imsize=28):
 
     txt_color=(0, 0, 0)
     eye_cnt = 0
+    boxes = sorted(boxes, key=lambda l:l[4], reverse=True)
     boxes = sorted(boxes, key=lambda l:l[5], reverse=True)
     for b in boxes:
         x, y, w, h, result, acc = b
         #cv2.rectangle(frame, (x,y-15), (x+w,y), (255, 255, 255), cv2.cv.CV_FILLED)
-        cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
 
-        if(not((result == 0) or ((result == 1)))):
-            txt_color=(0, 0, 0)
-            cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
-            cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
+        if((result == 0) or ((result == 1))):
 
-        elif((result == 0) or ((result == 1))):
+            eye_cnt += 1
+            if(eye_cnt > 2):
+                break
 
             if(result == 0):
                 txt_color=(0, 0, 255)
             elif(result == 1):
                 txt_color=(255, 0, 0)
-            cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
-            cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
+            draw_classification(frame=frame, x=x, y=y, w=w, h=h, result=result, acc=acc, txt_color=txt_color)
 
-            eye_cnt += 1
-            #if(eye_cnt > 2):
-            #    break
+        elif(not((result == 0) or ((result == 1)))):
 
-
+            txt_color=(100, 100, 100)
+            draw_classification(frame=frame, x=x, y=y, w=w, h=h, result=result, acc=acc, txt_color=txt_color)
 
     #cv2.imshow("Thresh", thresh)
     #cv2.imshow("Closing", closing)
