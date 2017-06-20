@@ -171,8 +171,8 @@ def classification_by_contour(origin, imsize=28):
         if((result == 0) or ((result == 1))):
 
             eye_cnt += 1
-            if(eye_cnt > 2):
-                break
+            #if(eye_cnt > 2):
+            #    break
 
             if(result == 0):
                 txt_color=(0, 0, 255)
@@ -276,6 +276,7 @@ def main(source=0):
     width_half = 25
     height_half = 25
 
+    print("Video source: "+str(source))
     camera = cv2.VideoCapture(source)
 
     cv2.namedWindow("frame")
@@ -284,7 +285,7 @@ def main(source=0):
 
         (grabbed, frame) = camera.read()
 
-        if(source == 0):
+        if((source == 0) or (source == 1)):
             frame = cv2.flip(frame,1)
 
         if not grabbed:
@@ -316,6 +317,9 @@ if __name__ == '__main__':
 
     if(len(FLAGS.source) <= 0):
         FLAGS.source = 0
+    elif(len(FLAGS.source) == 1):
+        FLAGS.source = int(FLAGS.source)
 
     cnn_constructor()
+    
     main(source=FLAGS.source)
