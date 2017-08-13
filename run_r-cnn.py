@@ -1,3 +1,6 @@
+import developed
+developed.print_stamp()
+
 # coding: utf-8
 import sys, os, inspect, argparse
 os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
@@ -321,5 +324,5 @@ if __name__ == '__main__':
         FLAGS.source = int(FLAGS.source)
 
     cnn_constructor()
-    
+
     main(source=FLAGS.source)
