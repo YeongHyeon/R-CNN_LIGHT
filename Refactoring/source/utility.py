@@ -52,10 +52,10 @@ def get_dirlist(path=None): # make directory list from path
 
     return directories
 
-def get_filelist(directory=None, extentions=None): # make directory list from directory with path
+def get_filelist(directory=None, extensions=None): # make directory list from directory with path
 
     file_list = []
-    for ext in extentions:
+    for ext in extensions:
         for fi in glob.glob(directory+"/*."+ext):
             file_list.append(fi)
 
@@ -63,7 +63,7 @@ def get_filelist(directory=None, extentions=None): # make directory list from di
 
     return file_list
 
-def copy_file(origin, copy):
+def copy_file(origin, copy, clone=0):
     count = 0
     for ori in origin:
         if(clone == 0):

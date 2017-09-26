@@ -9,7 +9,6 @@ import tensorflow as tf
 # custom modules
 import source.utility as utility
 import source.functions as functions
-import source.mash_plot as mash_plot
 import source.data_handler as data_handler
 import source.model as model
 import source.sub_procedure as sub_procedure
@@ -22,7 +21,7 @@ def main():
 
     if((not(data_handler.check())) or (FLAGS.make)):
         path = input("Enter the source path: ")
-        data_handler.make(path=path, height=32, width=32, extentions=extentions, clone=FLAGS.boost)
+        data_handler.make(path=path, height=32, width=32, extensions=extensions, clone=FLAGS.boost)
 
     dataset = data_handler.load()
 

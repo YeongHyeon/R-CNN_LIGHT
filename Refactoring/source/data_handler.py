@@ -8,7 +8,7 @@ import source.constructor as constructor
 
 PACK_PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))+"/.."
 
-def split_data(path=None, directories=None, extentions=None, clone=0):
+def split_data(path=None, directories=None, extensions=None, clone=0):
 
     print("\n** Split whole datas")
 
@@ -25,7 +25,7 @@ def split_data(path=None, directories=None, extentions=None, clone=0):
             os.mkdir(PACK_PATH+"/valid/"+di)
 
     for di in directories:
-        fi_list = utility.get_filelist(directory=path+"/"+di, extentions=extentions)
+        fi_list = utility.get_filelist(directory=path+"/"+di, extensions=extensions)
 
         fi_list = random.sample(fi_list, len(fi_list))
 
@@ -37,13 +37,13 @@ def split_data(path=None, directories=None, extentions=None, clone=0):
         test = fi_list[tr_point:te_point]
         valid = fi_list[te_point:va_point]
 
-        utility.copy_file(train, PACK_PATH+"/train/"+di)
-        utility.copy_file(test, PACK_PATH+"/test/"+di)
-        utility.copy_file(valid, PACK_PATH+"/valid/"+di)
+        utility.copy_file(train, PACK_PATH+"/train/"+di, clone=clone)
+        utility.copy_file(test, PACK_PATH+"/test/"+di, clone=clone)
+        utility.copy_file(valid, PACK_PATH+"/valid/"+di, clone=clone)
 
     print("Split the datas!")
 
-def make_dataset(category=None, dirlist=None, height=32, width=32, extentions=None):
+def make_dataset(category=None, dirlist=None, height=32, width=32, extensions=None):
 
     print("\n** Make "+category+".csv")
 
@@ -52,7 +52,7 @@ def make_dataset(category=None, dirlist=None, height=32, width=32, extentions=No
     label_number = 0
 
     for di in dirlist:
-        fi_list = utility.get_filelist(directory=PACK_PATH+"/"+category+"/"+di, extentions=extentions)
+        fi_list = utility.get_filelist(directory=PACK_PATH+"/"+category+"/"+di, extensions=extensions)
 
         for fi in fi_list:
 
@@ -94,7 +94,7 @@ def check():
     else:
         return False
 
-def make(path=None, height=32, width=32, extentions=None, clone=0):
+def make(path=None, height=32, width=32, extensions=None, clone=0):
 
     print("\n** Make dataset")
 
@@ -106,14 +106,14 @@ def make(path=None, height=32, width=32, extentions=None, clone=0):
         utility.refresh_directory(PACK_PATH+"/"+ch)
 
     dirlist = utility.get_dirlist(path=path)
-    split_data(path=path, directories=dirlist, extentions=extentions, clone=clone)
+    split_data(path=path, directories=dirlist, extensions=extensions, clone=clone)
 
     for di in dirlist:
-        fi_list = utility.get_filelist(directory=path+"/"+di, extentions=extentions)
+        fi_list = utility.get_filelist(directory=path+"/"+di, extensions=extensions)
     print("I got the standard shape!")
 
     for ca in cate_list:
-        make_dataset(category=ca, dirlist=dirlist, height=height, width=width, extentions=extentions)
+        make_dataset(category=ca, dirlist=dirlist, height=height, width=width, extensions=extensions)
 
     for shu in shuffle_list:
         utility.shuffle_csv(filename=PACK_PATH+"/dataset/"+shu)
