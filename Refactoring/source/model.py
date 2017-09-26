@@ -13,7 +13,7 @@ def convolution_neural_network(x, y_, training=None, height=None, width=None, cl
 
     #CONV
 
-    flatten_layer = flatten(inputs=drop_3)
+    flatten_layer = flatten(inputs=x_data)
 
     full_con = fully_connected(inputs=flatten_layer, num_outputs=classes, activate_fn=None)
 

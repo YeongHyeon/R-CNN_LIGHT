@@ -7,11 +7,13 @@ PACK_PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe
 
 class DataSet(object):
 
-    def __init__(self, who_am_i, class_len, data_len):
+    def __init__(self, who_am_i, class_len, data_len, height, width):
 
         self._who_am_i = who_am_i
         self._class_len = class_len
         self._data_len = data_len
+        self._height = height
+        self._width = width
 
     @property
     def amount(self):
@@ -32,7 +34,7 @@ class DataSet(object):
 
     @property
     def data_size(self):
-        return self._data_len
+        return self._data_len, self._height, self._width
 
 
     def next_batch(self, batch_size=10, start=-1, end=-1, nth=-1):

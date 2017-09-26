@@ -22,21 +22,20 @@ def main():
 
     if((not(data_handler.check())) or (FLAGS.make)):
         path = input("Enter the source path: ")
-        utility.data_booster(path=path, clone=FLAGS.boost, extentions=extentions)
-        data_handler.make(path=path, imsize=32, extentions=extentions)
+        data_handler.make(path=path, height=32, width=32, extentions=extentions, clone=FLAGS.boost)
 
     dataset = data_handler.load()
 
     sess = tf.InteractiveSession()
 
-    data_size = dataset.train.data_size
+    data_size, height, width = dataset.train.data_size
     classes = dataset.train.class_num
 
     data = tf.placeholder(tf.float32, shape=[None, data_size])
     label = tf.placeholder(tf.float32, shape=[None, classes])
     training = tf.placeholder(tf.bool)
 
-    train_step, accuracy, loss, prediction = model.convolution_neural_network(x=data, y_=label, training=training, data_size=data_size, classes=classes)
+    train_step, accuracy, loss, prediction = model.convolution_neural_network(x=data, y_=label, training=training, height=height, width=width, classes=classes)
 
     sess.run(tf.global_variables_initializer())
 

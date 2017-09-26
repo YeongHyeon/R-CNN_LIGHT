@@ -8,7 +8,7 @@ import source.constructor as constructor
 
 PACK_PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))+"/.."
 
-def split_data(path=None, directories=None, extentions=None):
+def split_data(path=None, directories=None, extentions=None, clone=0):
 
     print("\n** Split whole datas")
 
@@ -43,7 +43,7 @@ def split_data(path=None, directories=None, extentions=None):
 
     print("Split the datas!")
 
-def make_dataset(category=None, dirlist=None, imsize=32, extentions=None):
+def make_dataset(category=None, dirlist=None, height=32, width=32, extentions=None):
 
     print("\n** Make "+category+".csv")
 
@@ -57,8 +57,8 @@ def make_dataset(category=None, dirlist=None, imsize=32, extentions=None):
         for fi in fi_list:
 
             image = cv2.imread(fi)
-            resized_image = cv2.resize(origin_image, (imsize, imsize))
-            resized_image = resized_image.reshape((1, imsize*imsize))
+            resized_image = cv2.resize(origin_image, (height, width))
+            resized_image = resized_image.reshape((1, height*width))
 
             utility.save_dataset_to_csv(save_as=category, label=label_number, data=resized_image, mode=io_mode)
             io_mode = "a"
@@ -71,7 +71,11 @@ def make_dataset(category=None, dirlist=None, imsize=32, extentions=None):
     f = open(PACK_PATH+"/dataset/format.txt", "w")
     f.write(str(label_number))
     f.write("\n")
-    f.write(str(imsize))
+    f.write(str(height*width))
+    f.write("\n")
+    f.write(str(height))
+    f.write("\n")
+    f.write(str(width))
     f.close()
 
 def check():
@@ -90,7 +94,7 @@ def check():
     else:
         return False
 
-def make(path=None, imsize=32, extentions=None):
+def make(path=None, height=32, width=32, extentions=None, clone=0):
 
     print("\n** Make dataset")
 
@@ -102,14 +106,14 @@ def make(path=None, imsize=32, extentions=None):
         utility.refresh_directory(PACK_PATH+"/"+ch)
 
     dirlist = utility.get_dirlist(path=path)
-    split_data(path=path, directories=dirlist, extentions=extentions)
+    split_data(path=path, directories=dirlist, extentions=extentions, clone=clone)
 
     for di in dirlist:
         fi_list = utility.get_filelist(directory=path+"/"+di, extentions=extentions)
     print("I got the standard shape!")
 
     for ca in cate_list:
-        make_dataset(category=ca, dirlist=dirlist, imsize=imsize, extentions=extentions)
+        make_dataset(category=ca, dirlist=dirlist, height=height, width=width, extentions=extentions)
 
     for shu in shuffle_list:
         utility.shuffle_csv(filename=PACK_PATH+"/dataset/"+shu)

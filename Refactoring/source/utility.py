@@ -1,6 +1,4 @@
 import os, sys, glob, shutil, psutil, inspect, random
-
-import scipy.io.wavfile
 import scipy.misc
 
 import matplotlib.pyplot as plt
@@ -68,21 +66,12 @@ def get_filelist(directory=None, extentions=None): # make directory list from di
 def copy_file(origin, copy):
     count = 0
     for ori in origin:
-        shutil.copy(ori, copy+"/"+str(count)+".WAV")
+        if(clone == 0):
+            shutil.copy(ori, copy+"/"+str(count)+".jpg")
+        else:
+            for c in range(clone):
+                shutil.copy(ori, copy+"/"+str(count)+"_clone_"+str(c)+".jpg")
         count = count + 1
-
-def data_booster(path=None, clone=0, extentions=None):
-
-    if(clone > 0):
-        print("Boosting your data!")
-
-        for di in os.listdir(path):
-            for ext in extentions:
-                for fi in glob.glob(path+"/"+di+"/*."+ext):
-                    for cl in range(clone):
-                        shutil.copy(fi, fi.replace(".", "_clone"+str(cl)+"."))
-
-        print("Boosting finish!")
 
 def shuffle_csv(filename=None):
     f = open(filename+".csv", "r")
