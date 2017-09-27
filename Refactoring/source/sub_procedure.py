@@ -138,7 +138,7 @@ def prediction_process(sess=None, dataset=None,
                 correct = correct + 1
         prob_list.append(prob_matrix)
 
+        print("\n Accuracy: %.5f" %(float(correct)/float(val_loop)))
         utility.save_confusion(save_as="confusion", labels=content, lists=prob_list, size=dataset.validation.class_num)
-        print("\n Accuracy: %.5f" %(correct/val_loop))
     else:
         print("You must training first!")

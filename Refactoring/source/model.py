@@ -9,7 +9,8 @@ def convolution(inputs=None, filters=32, k_size=3, stride=1, padding="same"):
 
     # initializers.xavier_initializer()
     # tf.contrib.keras.initializers.he_normal()
-    conv2d(
+
+    conv = tf.contrib.layers.conv2d(
     inputs=inputs,
     num_outputs=filters,
     kernel_size=k_size,
@@ -29,7 +30,7 @@ def convolution(inputs=None, filters=32, k_size=3, stride=1, padding="same"):
     outputs_collections=None,
     trainable=True,
     scope=None
-)
+    )
 
     print("Convolution: "+str(conv.shape))
     return conv
@@ -50,13 +51,13 @@ def maxpool(inputs=None, pool_size=2):
 
     """https://www.tensorflow.org/api_docs/python/tf/layers/max_pooling1d"""
 
-    maxp = tf.layers.max_pooling1d(
+    maxp = tf.contrib.layers.max_pool2d(
     inputs=inputs,
-    pool_size=pool_size,
-    strides=pool_size,
-    padding='valid',
-    data_format='channels_last',
-    name=None
+    kernel_size=pool_size,
+    stride=pool_size,
+    padding='VALID',
+    outputs_collections=None,
+    scope=None
     )
 
     print("Max Pool: "+str(maxp.shape))
@@ -66,13 +67,13 @@ def avgpool(inputs=None, pool_size=2):
 
     """https://www.tensorflow.org/api_docs/python/tf/layers/average_pooling1d"""
 
-    avg = tf.layers.average_pooling1d(
+    avg = tf.contrib.layers.avg_pool2d(
     inputs=inputs,
-    pool_size=pool_size,
-    strides=pool_size,
-    padding='valid',
-    data_format='channels_last',
-    name=None
+    kernel_size=pool_size,
+    stride=pool_size,
+    padding='VALID',
+    outputs_collections=None,
+    scope=None
     )
 
     print("Average Pool: "+str(avg.shape))
@@ -132,7 +133,7 @@ def convolution_neural_network(x, y_, training=None, height=None, width=None, ch
     maxpool_3 = maxpool(inputs=conv_3, pool_size=2)
     drop_3 = dropout(inputs=maxpool_3, ratio=0.5, train=training)
 
-    flatten_layer = flatten(inputs=drop_3)
+    flatten_layer = flatten(inputs=x_data)
 
     full_con = fully_connected(inputs=flatten_layer, num_outputs=classes, activate_fn=None)
 
