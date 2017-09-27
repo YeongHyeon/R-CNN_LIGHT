@@ -1,17 +1,20 @@
-import source.developed as developed
-developed.print_stamp()
+import sys, os, inspect, argparse
+PACK_PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+print(PACK_PATH)
+sys.path.append(PACK_PATH+"/source")
 
-import argparse
+import developed
+developed.print_stamp()
 
 import matplotlib.pyplot as plt
 import tensorflow as tf
 
 # custom modules
-import source.utility as utility
-import source.functions as functions
-import source.data_handler as data_handler
-import source.model as model
-import source.sub_procedure as sub_procedure
+import utility
+import functions
+import data_handler
+import model
+import sub_procedure
 
 def main():
 
@@ -20,21 +23,21 @@ def main():
     print("")
 
     if((not(data_handler.check())) or (FLAGS.make)):
-        path = input("Enter the source path: ")
+        path = raw_input("Enter the source path: ")
         data_handler.make(path=path, height=32, width=32, extensions=extensions, clone=FLAGS.boost)
 
     dataset = data_handler.load()
 
     sess = tf.InteractiveSession()
 
-    data_size, height, width = dataset.train.data_size
+    data_size, height, width, channel = dataset.train.data_size
     classes = dataset.train.class_num
 
     data = tf.placeholder(tf.float32, shape=[None, data_size])
     label = tf.placeholder(tf.float32, shape=[None, classes])
     training = tf.placeholder(tf.bool)
 
-    train_step, accuracy, loss, prediction = model.convolution_neural_network(x=data, y_=label, training=training, height=height, width=width, classes=classes)
+    train_step, accuracy, loss, prediction = model.convolution_neural_network(x=data, y_=label, training=training, height=height, width=width, channel=channel, classes=classes)
 
     sess.run(tf.global_variables_initializer())
 

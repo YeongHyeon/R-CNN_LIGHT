@@ -1,10 +1,11 @@
 import os, glob, random, inspect, shutil
 
+import cv2
 import numpy as np
 
 # custom modules
-import source.utility as utility
-import source.constructor as constructor
+import utility as utility
+import constructor as constructor
 
 PACK_PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))+"/.."
 
@@ -57,8 +58,9 @@ def make_dataset(category=None, dirlist=None, height=32, width=32, extensions=No
         for fi in fi_list:
 
             image = cv2.imread(fi)
-            resized_image = cv2.resize(origin_image, (height, width))
-            resized_image = resized_image.reshape((1, height*width))
+            resized_image = cv2.resize(image, (height, width))
+            height, width, chennel = resized_image.shape
+            resized_image = resized_image.reshape((height*width*chennel))
 
             utility.save_dataset_to_csv(save_as=category, label=label_number, data=resized_image, mode=io_mode)
             io_mode = "a"
@@ -71,11 +73,13 @@ def make_dataset(category=None, dirlist=None, height=32, width=32, extensions=No
     f = open(PACK_PATH+"/dataset/format.txt", "w")
     f.write(str(label_number))
     f.write("\n")
-    f.write(str(height*width))
+    f.write(str(height*width*chennel))
     f.write("\n")
     f.write(str(height))
     f.write("\n")
     f.write(str(width))
+    f.write("\n")
+    f.write(str(chennel))
     f.close()
 
 def check():

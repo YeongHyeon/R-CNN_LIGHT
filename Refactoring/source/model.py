@@ -3,7 +3,21 @@ os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 
 import tensorflow as tf
 
-def convolution_neural_network(x, y_, training=None, height=None, width=None, classes=None):
+def flatten(inputs=None):
+
+    flat = tf.contrib.layers.flatten(inputs=inputs)
+
+    print("Flatten: "+str(flat.shape))
+    return flat
+
+def fully_connected(inputs=None, num_outputs=None, activate_fn=None):
+
+    full_con = tf.contrib.layers.fully_connected(inputs=inputs, num_outputs=num_outputs, activation_fn=activate_fn)
+
+    print("Fully Connected: "+str(full_con.shape))
+    return full_con
+    
+def convolution_neural_network(x, y_, training=None, height=None, width=None, channel=None, classes=None):
 
     print("\n** Initialize CNN Layers")
 
