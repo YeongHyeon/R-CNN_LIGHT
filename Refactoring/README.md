@@ -1,6 +1,9 @@
 <h1>R-CNN_LIGHT</h1>
 
-<p><img src="readme/sample.gif">Example of eye blink recognition.</p>
+<p>
+<img src="readme/sample.gif"></br>
+Example of eye blink recognition.
+</p>
 
 <h2>Requirments</h2>
 <p>
