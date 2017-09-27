@@ -102,7 +102,7 @@ def make(path=None, height=32, width=32, extensions=None, clone=0):
 
     print("\n** Make dataset")
 
-    check_list = ["dataset", "train", "test", "valid", "images"]
+    check_list = ["dataset", "train", "test", "valid"]
     cate_list = ["train", "test", "valid"]
     shuffle_list = ["train", "test"]
 
