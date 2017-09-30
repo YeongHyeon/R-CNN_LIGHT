@@ -1,5 +1,8 @@
 <h1>R-CNN_LIGHT</h1>
 
+<img src="LEGACY/sample.gif">
+<p>Example of eye blink recognition.</p>
+<p><strong>Maximum speed: 450 classification/sec</strong></p>
 
 <h2>LEGACY</h2>
 <p>
