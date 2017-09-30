@@ -46,6 +46,8 @@
 <p>To use video as source instead of webcam ... </br><strong>$ python run_r-cnn.py --source {video source path}</strong></p>
 <p>If you want to train for the new data ... </br><strong>$ python run_r-cnn.py --train_epochs {How many times to repeat as a number} --batch_size {Batch processing size as a number}</strong></p>
 
+</br></br>
 <p>
-Last Update: 2017.06.24
+Last Update: Jun.24.2017</br>
+Developed by <a href="https://github.com/YeongHyeon"><strong>YeongHyeon Park</strong><a> (Korea)</br>
 </p>

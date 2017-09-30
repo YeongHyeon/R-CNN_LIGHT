@@ -19,6 +19,8 @@ Enter the commend on your terminal like this.</br>
 If you want to know about options ... </br><strong>$ python run.py -h</strong></br>
 </p>
 
+</br></br>
 <p>
-Last Update: 2017.10.01
+Last Update: Oct.01.2017</br>
+Developed by <a href="https://github.com/YeongHyeon"><strong>YeongHyeon Park</strong><a> (Korea)</br>
 </p>

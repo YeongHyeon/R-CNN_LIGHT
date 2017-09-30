@@ -1,7 +1,20 @@
 <h1>R-CNN_LIGHT</h1>
 
+
+<h2>LEGACY</h2>
 <p>
-<h2>! NOTICE: 2017.09.23</h2>
-Project refactoring is scheduled.</br>
-The previous project has been moved to the <strong>LEGACY</strong> directory.
+The prototype of blink detection project.</br>
+The last modified date is June 24, 2017.
+</p>
+
+<h2>Refactoring</h2>
+<p>
+The latest version of blink detection project.
+I plan to keep the latest version here at all times.
+</p>
+
+</br></br>
+<p>
+First commit: May.10.2017</br>
+Developed by <a href="https://github.com/YeongHyeon"><strong>YeongHyeon Park</strong><a> (Korea)</br>
 </p>
