@@ -109,7 +109,7 @@ def prediction_process(sess=None, dataset=None,
         content = f.readlines()
         f.close()
         for idx in range(len(content)):
-            content[idx] = content[idx][:len(content[idx])-1]
+            content[idx] = content[idx][:len(content[idx])-1] # rid \n
 
         print("\n Prediction to "+str(val_loop)+" times")
 
