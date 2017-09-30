@@ -43,8 +43,15 @@ def main():
 
     saver = tf.train.Saver()
 
-    # sub_procedure.training_process(sess=sess, dataset=dataset, x=data, y_=label, training=training, train_step=train_step, accuracy=accuracy, loss=loss, saver=saver, batch_size=FLAGS.batch, epochs=FLAGS.epochs)
-    # sub_procedure.prediction_process(sess=sess, dataset=dataset, x=data, y_=label, training=training, prediction=prediction, saver=saver, validation=FLAGS.validation)
+    print("")
+    user_need_train = raw_input("Do you want to train? Y/N: ")
+    if((user_need_train == "Y") or (user_need_train == "y")):
+        sub_procedure.training_process(sess=sess, dataset=dataset, x=data, y_=label, training=training, train_step=train_step, accuracy=accuracy, loss=loss, saver=saver, batch_size=FLAGS.batch, epochs=FLAGS.epochs)
+
+    print("")
+    user_need_valid = raw_input("Do you want to validation? Y/N: ")
+    if((user_need_valid == "Y") or (user_need_valid == "y")):
+        sub_procedure.prediction_process(sess=sess, dataset=dataset, x=data, y_=label, training=training, prediction=prediction, saver=saver, validation=FLAGS.validation)
 
     webcam.webcam_main(sess=sess, x_holder=data, training=training, prediction=prediction, saver=saver)
 

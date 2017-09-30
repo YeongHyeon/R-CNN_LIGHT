@@ -1,4 +1,4 @@
-import os, sys, inspect
+import os, sys, inspect, time
 import cv2
 
 import tensorflow as tf
@@ -151,7 +151,8 @@ def webcam_main(sess=None, x_holder=None, training=None, prediction=None, saver=
 
             boxes = []
             pad = 15
-
+            std_time = time.time()
+            classification_counter = 0
             for cnt in contours:
 
                 area = cv2.contourArea(cnt)
@@ -166,13 +167,18 @@ def webcam_main(sess=None, x_holder=None, training=None, prediction=None, saver=
                     if((x < frame.shape[1]) and (y < frame.shape[0])): # check: box in the region
 
                         prob = sess.run(prediction, feed_dict={x_holder:img2predict(image=frame[y:y+h, x:x+w]), training:False})
+                        classification_counter += 1
+
                         result = str(content[int(np.argmax(prob))])
                         acc = np.max(prob)
 
                         if(acc > 0.85):
                             boxes.append([x, y, w, h, result, acc])
 
-            boxes = sorted(boxes, key=lambda l:l[5], reverse=True)
+            sys.stdout.write(' %.3f [classify/sec]\r' %(classification_counter/(time.time() - std_time)))
+            sys.stdout.flush()
+
+            boxes = sorted(boxes, key=lambda l:l[5], reverse=True) # sort by acc
 
             draw_boxes(boxes=boxes)
 
