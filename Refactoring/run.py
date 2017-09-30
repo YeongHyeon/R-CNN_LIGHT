@@ -11,10 +11,10 @@ import tensorflow as tf
 
 # custom modules
 import utility
-import functions
 import data_handler
 import model
 import sub_procedure
+import webcam
 
 def main():
 
@@ -43,8 +43,10 @@ def main():
 
     saver = tf.train.Saver()
 
-    sub_procedure.training_process(sess=sess, dataset=dataset, x=data, y_=label, training=training, train_step=train_step, accuracy=accuracy, loss=loss, saver=saver, batch_size=FLAGS.batch, epochs=FLAGS.epochs)
-    sub_procedure.prediction_process(sess=sess, dataset=dataset, x=data, y_=label, training=training, prediction=prediction, saver=saver, validation=FLAGS.validation)
+    # sub_procedure.training_process(sess=sess, dataset=dataset, x=data, y_=label, training=training, train_step=train_step, accuracy=accuracy, loss=loss, saver=saver, batch_size=FLAGS.batch, epochs=FLAGS.epochs)
+    # sub_procedure.prediction_process(sess=sess, dataset=dataset, x=data, y_=label, training=training, prediction=prediction, saver=saver, validation=FLAGS.validation)
+
+    webcam.webcam_main(sess=sess, x_holder=data, training=training, prediction=prediction, saver=saver)
 
 
 
