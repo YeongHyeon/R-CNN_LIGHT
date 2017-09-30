@@ -1,6 +1,5 @@
 import sys, os, inspect, argparse
 PACK_PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-print(PACK_PATH)
 sys.path.append(PACK_PATH+"/source")
 
 import developed
@@ -53,9 +52,10 @@ def main():
     if((user_need_valid == "Y") or (user_need_valid == "y")):
         sub_procedure.prediction_process(sess=sess, dataset=dataset, x=data, y_=label, training=training, prediction=prediction, saver=saver, validation=FLAGS.validation)
 
-    webcam.webcam_main(sess=sess, x_holder=data, training=training, prediction=prediction, saver=saver)
-
-
+    if(os.path.exists(PACK_PATH+"/checkpoint/checker.index")):
+        webcam.webcam_main(sess=sess, x_holder=data, training=training, prediction=prediction, saver=saver)
+    else:
+        print("You must training first!")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
