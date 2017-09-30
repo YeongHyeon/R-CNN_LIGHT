@@ -79,43 +79,46 @@ def img2predict(image=None):
 
     return np.asarray(resized_image).reshape((1, height*width*chennel))
 
-def prediction(origin=None, contours=None, sess=None, training=None, prediction=None, saver=None):
+def region_predict(origin=None, contours=None, sess=None, x_holder=None, training=None, prediction=None, saver=None):
 
     global content
 
-    if(os.path.exists(PACK_PATH+"/checkpoint/checker.index")):
-        saver.restore(sess, PACK_PATH+"/checkpoint/checker")
+    boxes = []
+    pad = 15
+    std_time = time.time()
+    classification_counter = 0
+    for cnt in contours:
 
-        boxes = []
-        pad = 15
+        area = cv2.contourArea(cnt)
+        if((area < 50) or (area > 2500)):
+            continue
 
-        for cnt in contours:
+        x, y, w, h = cv2.boundingRect(cnt)
+        x, y, w, h = x-pad, y-pad, w+pad, h+pad
 
-            area = cv2.contourArea(cnt)
-            if((area < 50) or (area > 2500)):
-                continue
+        if((x > 0) and (y > 0)):
 
-            x, y, w, h = cv2.boundingRect(cnt)
-            x, y, w, h = x-pad, y-pad, w+pad, h+pad
+            if((x < frame.shape[1]) and (y < frame.shape[0])): # check: box in the region
 
-            if((x > 0) and (y > 0)):
+                prob = sess.run(prediction, feed_dict={x_holder:img2predict(image=frame[y:y+h, x:x+w]), training:False})
+                classification_counter += 1
 
-                if((x < origin.shape[1]) and (y < origin.shape[0])): # check: box in the region
+                result = str(content[int(np.argmax(prob))])
+                acc = np.max(prob)
 
-                    prob = sess.run(prediction, feed_dict={x:img2predict(image=origin[y:y+h, x:x+w]), training:False})
-                    result = str(content[int(np.argmax(prob))])
-                    acc = max(prob)
+                if(acc > 0.85):
+                    boxes.append([x, y, w, h, result, acc])
 
-                    if(acc > 0.85):
-                        boxes.append([x, y, w, h, result, acc])
+    sys.stdout.write('%.3f [classify/sec]\r' %(classification_counter/(time.time() - std_time)))
+    sys.stdout.flush()
 
-    boxes = sorted(boxes, key=lambda l:l[5], reverse=True)
-
-    return boxes
+    return sorted(boxes, key=lambda l:l[5], reverse=True) # sort by acc
 
 def webcam_main(sess=None, x_holder=None, training=None, prediction=None, saver=None):
 
-    global frame, content
+    global frame
+
+    print("")
 
     load_format()
 
@@ -149,36 +152,7 @@ def webcam_main(sess=None, x_holder=None, training=None, prediction=None, saver=
 
             contours, _ = contouring(closed=closed)
 
-            boxes = []
-            pad = 15
-            std_time = time.time()
-            classification_counter = 0
-            for cnt in contours:
-
-                area = cv2.contourArea(cnt)
-                if((area < 50) or (area > 2500)):
-                    continue
-
-                x, y, w, h = cv2.boundingRect(cnt)
-                x, y, w, h = x-pad, y-pad, w+pad, h+pad
-
-                if((x > 0) and (y > 0)):
-
-                    if((x < frame.shape[1]) and (y < frame.shape[0])): # check: box in the region
-
-                        prob = sess.run(prediction, feed_dict={x_holder:img2predict(image=frame[y:y+h, x:x+w]), training:False})
-                        classification_counter += 1
-
-                        result = str(content[int(np.argmax(prob))])
-                        acc = np.max(prob)
-
-                        if(acc > 0.85):
-                            boxes.append([x, y, w, h, result, acc])
-
-            sys.stdout.write(' %.3f [classify/sec]\r' %(classification_counter/(time.time() - std_time)))
-            sys.stdout.flush()
-
-            boxes = sorted(boxes, key=lambda l:l[5], reverse=True) # sort by acc
+            boxes = region_predict(origin=frame, contours=contours, sess=sess, x_holder=x_holder, training=training, prediction=prediction, saver=saver)
 
             draw_boxes(boxes=boxes)
 
@@ -190,7 +164,7 @@ def webcam_main(sess=None, x_holder=None, training=None, prediction=None, saver=
                 cv2.waitKey(0)
             # press 'q' to Quit
             elif(key == ord("q")):
-                print("\nQUIT")
+                print("\n\nQUIT")
                 break
 
         # cleanup the camera and close any open windows
