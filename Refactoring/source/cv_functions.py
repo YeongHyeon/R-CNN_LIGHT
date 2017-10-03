@@ -28,19 +28,23 @@ def dilation(binary_img=None, k_size=5, iterations=1):
 
     return cv2.dilate(binary_img, kernel, iterations=iterations)
 
-def custom_opeing(binary_img=None, k_size=5, iterations=1):
+def custom_opeing(binary_img=None, ero_size=5, dil_size=5, iterations=1):
 
-    kernel = np.ones((k_size, k_size),np.uint8)
-    tmp_ero = cv2.erode(binary_img, kernel, iterations=iterations)
+    ero_kernel = np.ones((ero_size, ero_size),np.uint8)
+    dil_kernel = np.ones((dil_size, dil_size),np.uint8)
 
-    return cv2.dilate(tmp_ero, kernel, iterations=iterations)
+    tmp_ero = cv2.erode(binary_img, ero_kernel, iterations=iterations)
 
-def custom_closing(binary_img=None, k_size=5, iterations=1):
+    return cv2.dilate(tmp_ero, dil_kernel, iterations=iterations)
 
-    kernel = np.ones((k_size, k_size),np.uint8)
-    tmp_dil = cv2.dilate(binary_img, kernel, iterations=iterations)
+def custom_closing(binary_img=None, ero_size=5, dil_size=5, iterations=1):
 
-    return cv2.erode(tmp_dil, kernel, iterations=iterations)
+    ero_kernel = np.ones((ero_size, ero_size),np.uint8)
+    dil_kernel = np.ones((dil_size, dil_size),np.uint8)
+
+    tmp_dil = cv2.dilate(binary_img, dil_kernel, iterations=iterations)
+
+    return cv2.erode(tmp_dil, ero_kernel, iterations=iterations)
 
 def opening(binary_img=None, k_size=2, iterations=1):
 
