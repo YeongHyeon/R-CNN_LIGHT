@@ -62,3 +62,18 @@ def contouring(closed=None):
 
     # return two values: contours, hierarchy
     return cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+def contour2box(contours=None, padding=15):
+
+    boxes =[]
+    for cnt in contours:
+
+        area = cv2.contourArea(cnt)
+        if((area < 50) or (area > 2500)):
+            continue
+
+        x, y, w, h = cv2.boundingRect(cnt)
+        x, y, w, h = x-padding, y-padding, w+padding, h+padding
+        boxes.append([x, y, w, h])
+
+    return boxes

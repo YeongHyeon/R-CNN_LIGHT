@@ -17,6 +17,15 @@ def draw_boxes(boxes=None):
     global frame
 
     for b in boxes:
+        x, y, w, h = b
+
+        cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
+
+def draw_predict_boxes(boxes=None):
+
+    global frame
+
+    for b in boxes:
         x, y, w, h, result, acc = b
 
         txt_color=(100, 100, 100)
@@ -122,16 +131,19 @@ def webcam_main(sess=None, x_holder=None, training=None, prediction=None, saver=
             # cv2.imshow("closed", closed)
 
             cus_opened = cv_functions.custom_opeing(binary_img=binary_img, ero_size=3, dil_size=7, iterations=1)
-            cv2.imshow("cus_opened", cus_opened)
+            # cv2.imshow("cus_opened", cus_opened)
 
             cus_closed = cv_functions.custom_closing(binary_img=binary_img, ero_size=3, dil_size=5, iterations=1)
-            cv2.imshow("cus_closed", cus_closed)
+            # cv2.imshow("cus_closed", cus_closed)
 
             contours, _ = cv_functions.contouring(closed=cus_opened)
 
-            boxes = region_predict(origin=frame, contours=contours, sess=sess, x_holder=x_holder, training=training, prediction=prediction, saver=saver)
+            # boxes = cv_functions.contour2box(contours=contours, padding=15)
+            # draw_boxes(boxes=boxes)
 
-            draw_boxes(boxes=boxes)
+            boxes_pred = region_predict(origin=frame, contours=contours, sess=sess, x_holder=x_holder, training=training, prediction=prediction, saver=saver)
+
+            draw_predict_boxes(boxes=boxes_pred)
 
             cv2.imshow("frame", frame)
 
