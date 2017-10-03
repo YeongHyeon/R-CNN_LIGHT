@@ -1,5 +1,9 @@
 <h1>R-CNN_LIGHT</h1>
 
+</br>
+<h2>Please click the <strong>STAR</strong> button when downloading or fork source code.</h2>
+</br>
+
 <img src="LEGACY/sample.gif">
 
 <h2>LEGACY</h2>
@@ -13,9 +17,6 @@ The last modified date is June 24, 2017.
 The latest version of blink detection project.
 I plan to keep the latest version here at all times.
 </p>
-
-</br>
-<h2>!! Please click the <strong>STAR</strong> button when downloading or fork source code.</h2>
 
 </br></br>
 <p>
