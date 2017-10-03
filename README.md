@@ -14,6 +14,9 @@ The latest version of blink detection project.
 I plan to keep the latest version here at all times.
 </p>
 
+</br>
+<h2>!! Please click the <strong>STAR</strong> button when downloading or fork source code.</h2>
+
 </br></br>
 <p>
 First commit: May.10.2017</br>
