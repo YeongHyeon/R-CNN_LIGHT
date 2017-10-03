@@ -4,8 +4,8 @@ import cv2
 import numpy as np
 
 # custom modules
-import utility as utility
-import constructor as constructor
+import utility
+import constructor
 
 PACK_PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))+"/.."
 

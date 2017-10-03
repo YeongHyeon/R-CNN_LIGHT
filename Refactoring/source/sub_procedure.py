@@ -3,7 +3,7 @@ import os, sys, inspect, shutil
 import tensorflow as tf
 import numpy as np
 
-import utility as utility
+import utility
 
 PACK_PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))+"/.."
 

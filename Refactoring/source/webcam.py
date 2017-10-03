@@ -4,42 +4,13 @@ import cv2
 import tensorflow as tf
 import numpy as np
 
+import cv_functions
+
 PACK_PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))+"/.."
 
 frame = None
 height, width, chennel = None, None, None
 content = None
-
-def rgb2gray(rgb=None):
-
-    return cv2.cvtColor(rgb, cv2.COLOR_BGR2GRAY)
-
-def bluring(gray=None, k_size=11):
-
-    return cv2.GaussianBlur(gray, (k_size, k_size), 0)
-
-def adaptiveThresholding(gray=None, neighbor=5, blur=False, k_size=3):
-
-    if(blur):
-        gray = cv2.GaussianBlur(gray, (k_size, k_size), 0)
-    return cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, neighbor, 1)
-
-def opening(binary_img=None, k_size=2, iterations=1):
-
-    kernel = np.ones((k_size, k_size), np.uint8)
-
-    return cv2.morphologyEx(binary_img, cv2.MORPH_OPEN, kernel, iterations=1) # iteration = loop
-
-def closing(binary_img=None, k_size=2, iterations=1):
-
-    kernel = np.ones((k_size, k_size), np.uint8)
-
-    return cv2.morphologyEx(binary_img, cv2.MORPH_CLOSE, kernel, iterations=1) # iteration = loop
-
-def contouring(closed=None):
-
-    # return two values: contours, hierarchy
-    return cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
 def draw_boxes(boxes=None):
 
@@ -71,7 +42,7 @@ def load_format():
     for idx in range(len(content)):
         content[idx] = content[idx][:len(content[idx])-1] # rid \n
 
-def img2predict(image=None):
+def img_predict(image=None):
 
     global height, width, chennel
 
@@ -100,7 +71,7 @@ def region_predict(origin=None, contours=None, sess=None, x_holder=None, trainin
 
             if((x < frame.shape[1]) and (y < frame.shape[0])): # check: box in the region
 
-                prob = sess.run(prediction, feed_dict={x_holder:img2predict(image=frame[y:y+h, x:x+w]), training:False})
+                prob = sess.run(prediction, feed_dict={x_holder:img_predict(image=frame[y:y+h, x:x+w]), training:False})
                 classification_counter += 1
 
                 result = str(content[int(np.argmax(prob))])
@@ -138,19 +109,25 @@ def webcam_main(sess=None, x_holder=None, training=None, prediction=None, saver=
             if not grabbed:
                 break
 
-            gray = rgb2gray(rgb=frame)
+            gray = cv_functions.rgb2gray(rgb=frame)
             # cv2.imshow("gray", gray)
 
-            binary_img = adaptiveThresholding(gray=gray, neighbor=5, blur=True, k_size=7)
+            binary_img = cv_functions.adaptiveThresholding(gray=gray, neighbor=5, blur=True, k_size=7)
             # cv2.imshow("binary_img", binary_img)
 
-            opened = opening(binary_img=binary_img, k_size=2, iterations=1)
+            opened = cv_functions.opening(binary_img=binary_img, k_size=2, iterations=1)
             # cv2.imshow("opened", opened)
 
-            closed = closing(binary_img=opened, k_size=4, iterations=3)
+            closed = cv_functions.closing(binary_img=opened, k_size=4, iterations=3)
             # cv2.imshow("closed", closed)
 
-            contours, _ = contouring(closed=closed)
+            cus_opened = cv_functions.custom_opeing(binary_img=binary_img, k_size=3, iterations=1)
+            cv2.imshow("cus_opened", cus_opened)
+
+            cus_closed = cv_functions.custom_closing(binary_img=binary_img, k_size=3, iterations=1)
+            cv2.imshow("cus_closed", cus_closed)
+
+            contours, _ = cv_functions.contouring(closed=cus_opened)
 
             boxes = region_predict(origin=frame, contours=contours, sess=sess, x_holder=x_holder, training=training, prediction=prediction, saver=saver)
 
