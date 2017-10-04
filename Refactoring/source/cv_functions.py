@@ -58,10 +58,12 @@ def closing(binary_img=None, k_size=2, iterations=1):
 
     return cv2.morphologyEx(binary_img, cv2.MORPH_CLOSE, kernel, iterations=iterations) # iteration = loop
 
-def contouring(closed=None):
+def contouring(binary_img=None):
 
     # return two values: contours, hierarchy
-    return cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # cv2.RETR_EXTERNAL
+
+    return cv2.findContours(binary_img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE)
 
 def contour2box(contours=None, padding=15):
 

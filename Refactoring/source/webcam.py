@@ -136,10 +136,10 @@ def webcam_main(sess=None, x_holder=None, training=None, prediction=None, saver=
             cus_closed = cv_functions.custom_closing(binary_img=binary_img, ero_size=3, dil_size=5, iterations=1)
             # cv2.imshow("cus_closed", cus_closed)
 
-            contours, _ = cv_functions.contouring(closed=cus_opened)
+            contours, _ = cv_functions.contouring(binary_img=cus_opened)
 
-            # boxes = cv_functions.contour2box(contours=contours, padding=15)
-            # draw_boxes(boxes=boxes)
+            boxes = cv_functions.contour2box(contours=contours, padding=15)
+            draw_boxes(boxes=boxes)
 
             boxes_pred = region_predict(origin=frame, contours=contours, sess=sess, x_holder=x_holder, training=training, prediction=prediction, saver=saver)
 
