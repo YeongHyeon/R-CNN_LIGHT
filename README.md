@@ -1,9 +1,5 @@
 <h1>R-CNN_LIGHT</h1>
 
-</br>
-<h2>Please click the <strong>STAR</strong> button when downloading or fork source code.</h2>
-</br>
-
 <img src="LEGACY/sample.gif">
 
 <h2>LEGACY</h2>
