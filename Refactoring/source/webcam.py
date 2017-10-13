@@ -25,13 +25,27 @@ def draw_predict_boxes(boxes=None):
 
     global frame
 
+    eye = 0
     for b in boxes:
         x, y, w, h, result, acc = b
 
-        txt_color=(100, 100, 100)
-        cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
-        cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
-        cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
+        txt_color = (100, 100, 100)
+        if((result == "open") or (result == "close")):
+            eye += 1
+            if(eye > 1):
+                break
+            if(result == "open"):
+                txt_color = (255, 0, 0)
+            elif(result == "close"):
+                txt_color = (0, 0, 255)
+
+            cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
+            cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
+            cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
+        else:
+            cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
+            cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
+            cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
 
 def load_format():
 
@@ -138,8 +152,8 @@ def webcam_main(sess=None, x_holder=None, training=None, prediction=None, saver=
 
             contours, _ = cv_functions.contouring(binary_img=cus_opened)
 
-            boxes = cv_functions.contour2box(contours=contours, padding=15)
-            draw_boxes(boxes=boxes)
+            boxes = cv_functions.contour2box(contours=contours, padding=10)
+            # draw_boxes(boxes=boxes)
 
             boxes_pred = region_predict(origin=frame, contours=contours, sess=sess, x_holder=x_holder, training=training, prediction=prediction, saver=saver)
 

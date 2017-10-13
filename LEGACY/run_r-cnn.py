@@ -122,6 +122,36 @@ def draw_classification(frame=None, x=0, y=0, w=0, h=0, result=None, acc=None, t
     cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
     cv2.putText(frame, class_name[result]+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
 
+def erosion(binary_img=None, k_size=5, iterations=1):
+
+    kernel = np.ones((k_size, k_size),np.uint8)
+
+    return cv2.erode(binary_img, kernel, iterations=iterations)
+
+def dilation(binary_img=None, k_size=5, iterations=1):
+
+    kernel = np.ones((k_size, k_size),np.uint8)
+
+    return cv2.dilate(binary_img, kernel, iterations=iterations)
+
+def custom_opeing(binary_img=None, ero_size=5, dil_size=5, iterations=1):
+
+    ero_kernel = np.ones((ero_size, ero_size),np.uint8)
+    dil_kernel = np.ones((dil_size, dil_size),np.uint8)
+
+    tmp_ero = cv2.erode(binary_img, ero_kernel, iterations=iterations)
+
+    return cv2.dilate(tmp_ero, dil_kernel, iterations=iterations)
+
+def custom_closing(binary_img=None, ero_size=5, dil_size=5, iterations=1):
+
+    ero_kernel = np.ones((ero_size, ero_size),np.uint8)
+    dil_kernel = np.ones((dil_size, dil_size),np.uint8)
+
+    tmp_dil = cv2.dilate(binary_img, dil_kernel, iterations=iterations)
+
+    return cv2.erode(tmp_dil, ero_kernel, iterations=iterations)
+
 def classification_by_contour(origin, imsize=28):
     """
     Referenced by http://docs.opencv.org/trunk/d7/d4d/tutorial_py_thresholding.html
@@ -134,10 +164,9 @@ def classification_by_contour(origin, imsize=28):
     gray_blur = cv2.GaussianBlur(gray, (11, 11), 0)
     thresh = cv2.adaptiveThreshold(gray_blur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 5, 1)
 
-    kernel = np.ones((2, 2), np.uint8)
-    closing = cv2.morphologyEx(thresh, cv2.MORPH_CLOSE, kernel, iterations=4)
+    opened = custom_opeing(binary_img=thresh, ero_size=3, dil_size=7, iterations=1)
 
-    contours, hierarchy = cv2.findContours(closing, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(opened, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 
     boxes = []
     pad = 15
