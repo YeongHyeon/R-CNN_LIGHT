@@ -1,0 +1,5 @@
+close
+eyebrow
+mouth
+nose
+open

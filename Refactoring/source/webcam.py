@@ -32,7 +32,7 @@ def draw_predict_boxes(boxes=None):
         txt_color = (100, 100, 100)
         if((result == "open") or (result == "close")):
             eye += 1
-            if(eye > 1):
+            if(eye > 2):
                 break
             if(result == "open"):
                 txt_color = (255, 0, 0)
@@ -44,8 +44,10 @@ def draw_predict_boxes(boxes=None):
             cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
         else:
             cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
-            cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
-            cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
+            # cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
+            # cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
+            cv2.putText(frame, "Others "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
+            cv2.putText(frame, "Others "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
 
 def load_format():
 
@@ -106,7 +108,9 @@ def region_predict(origin=None, contours=None, sess=None, x_holder=None, trainin
     sys.stdout.write('%.3f [classify/sec]\r' %(classification_counter/(time.time() - std_time)))
     sys.stdout.flush()
 
-    return sorted(boxes, key=lambda l:l[5], reverse=True) # sort by acc
+    boxes = sorted(boxes, key=lambda l:l[4], reverse=True) # sort by result
+    boxes = sorted(boxes, key=lambda l:l[5], reverse=True) # sort by acc
+    return boxes
 
 def webcam_main(sess=None, x_holder=None, training=None, prediction=None, saver=None):
 
@@ -152,7 +156,7 @@ def webcam_main(sess=None, x_holder=None, training=None, prediction=None, saver=
 
             contours, _ = cv_functions.contouring(binary_img=cus_opened)
 
-            boxes = cv_functions.contour2box(contours=contours, padding=10)
+            boxes = cv_functions.contour2box(contours=contours, padding=15)
             # draw_boxes(boxes=boxes)
 
             boxes_pred = region_predict(origin=frame, contours=contours, sess=sess, x_holder=x_holder, training=training, prediction=prediction, saver=saver)
