@@ -21,6 +21,6 @@ If you want to know about options ... </br><strong>$ python run.py -h</strong></
 
 </br></br>
 <p>
-Last Update: Oct.01.2017</br>
+Last Update: Oct.15.2017</br>
 Developed by <a href="https://github.com/YeongHyeon"><strong>YeongHyeon Park</strong><a> (Korea)</br>
 </p>
