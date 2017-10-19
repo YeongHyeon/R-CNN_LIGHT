@@ -32,8 +32,8 @@ def draw_predict_boxes(boxes=None):
         txt_color = (100, 100, 100)
         if((result == "open") or (result == "close")):
             eye += 1
-            if(eye > 2):
-                break
+            # if(eye > 2):
+                # break
             if(result == "open"):
                 txt_color = (255, 0, 0)
             elif(result == "close"):

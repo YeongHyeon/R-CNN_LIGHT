@@ -121,19 +121,24 @@ def convolution_neural_network(x, y_, training=None, height=None, width=None, ch
     x_data = tf.reshape(x, [-1, height, width, channel])
     print("Input: "+str(x_data.shape))
 
-    conv_1 = convolution(inputs=x_data, filters=16, k_size=5, stride=1, padding="same")
+    conv_1 = convolution(inputs=x_data, filters=6, k_size=5, stride=1, padding="same")
     maxpool_1 = maxpool(inputs=conv_1, pool_size=2)
-    drop_1 = dropout(inputs=maxpool_1, ratio=0.5, train=training)
 
-    conv_2 = convolution(inputs=drop_1, filters=32, k_size=5, stride=1, padding="same")
+    conv_2 = convolution(inputs=maxpool_1, filters=12, k_size=5, stride=1, padding="same")
     maxpool_2 = maxpool(inputs=conv_2, pool_size=2)
-    drop_2 = dropout(inputs=maxpool_2, ratio=0.5, train=training)
 
-    conv_3 = convolution(inputs=drop_2, filters=16, k_size=5, stride=1, padding="same")
+    conv_3 = convolution(inputs=maxpool_2, filters=12, k_size=5, stride=1, padding="same")
     maxpool_3 = maxpool(inputs=conv_3, pool_size=2)
-    drop_3 = dropout(inputs=maxpool_3, ratio=0.5, train=training)
 
-    flatten_layer = flatten(inputs=x_data)
+    conv_4 = convolution(inputs=maxpool_3, filters=24, k_size=5, stride=1, padding="same")
+    maxpool_4 = maxpool(inputs=conv_4, pool_size=2)
+
+    conv_5 = convolution(inputs=maxpool_4, filters=48, k_size=5, stride=1, padding="same")
+    maxpool_5 = maxpool(inputs=conv_5, pool_size=2)
+
+    drop = dropout(inputs=maxpool_3, ratio=0.5, train=training)
+
+    flatten_layer = flatten(inputs=drop)
 
     full_con = fully_connected(inputs=flatten_layer, num_outputs=classes, activate_fn=None)
 

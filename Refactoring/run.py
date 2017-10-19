@@ -23,7 +23,7 @@ def main():
 
     if((not(data_handler.check())) or (FLAGS.make)):
         path = raw_input("Enter the source path: ")
-        data_handler.make(path=path, height=32, width=32, extensions=extensions, clone=FLAGS.boost)
+        data_handler.make(path=path, height=128, width=128, extensions=extensions, clone=FLAGS.boost)
 
     dataset = data_handler.load()
 
