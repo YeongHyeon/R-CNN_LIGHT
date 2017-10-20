@@ -136,7 +136,7 @@ def convolution_neural_network(x, y_, training=None, height=None, width=None, ch
     conv_5 = convolution(inputs=maxpool_4, filters=48, k_size=5, stride=1, padding="same")
     maxpool_5 = maxpool(inputs=conv_5, pool_size=2)
 
-    drop = dropout(inputs=maxpool_3, ratio=0.5, train=training)
+    drop = dropout(inputs=maxpool_5, ratio=0.5, train=training)
 
     flatten_layer = flatten(inputs=drop)
 
