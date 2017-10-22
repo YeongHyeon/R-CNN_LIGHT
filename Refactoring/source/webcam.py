@@ -42,12 +42,12 @@ def draw_predict_boxes(boxes=None):
             # cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
             cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
             cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
-        else:
+        # else:
             # cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
             # cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
             # cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
-            cv2.putText(frame, "Others "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
-            cv2.putText(frame, "Others "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
+            # cv2.putText(frame, "Others "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
+            # cv2.putText(frame, "Others "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
 
 def load_format():
 
