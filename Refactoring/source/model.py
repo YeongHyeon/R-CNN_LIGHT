@@ -127,7 +127,7 @@ def convolution_neural_network(x, y_, training=None, height=None, width=None, ch
     conv_2 = convolution(inputs=maxpool_1, filters=32, k_size=5, stride=1, padding="same")
     maxpool_2 = maxpool(inputs=conv_2, pool_size=2)
 
-    conv_3 = convolution(inputs=maxpool_2, filters=16, k_size=5, stride=1, padding="same")
+    conv_3 = convolution(inputs=maxpool_2, filters=64, k_size=5, stride=1, padding="same")
     maxpool_3 = maxpool(inputs=conv_3, pool_size=2)
     drop_1 = dropout(inputs=maxpool_3, ratio=0.5, train=training)
 
