@@ -32,8 +32,8 @@ def draw_predict_boxes(boxes=None):
         txt_color = (100, 100, 100)
         if((result == "open") or (result == "close")):
             eye += 1
-            # if(eye > 2):
-                # break
+            if(eye > 2):
+                break
             if(result == "open"):
                 txt_color = (255, 0, 0)
             elif(result == "close"):
@@ -142,16 +142,16 @@ def webcam_main(sess=None, x_holder=None, training=None, prediction=None, saver=
             binary_img = cv_functions.adaptiveThresholding(gray=gray, neighbor=5, blur=True, k_size=7)
             # cv2.imshow("binary_img", binary_img)
 
-            opened = cv_functions.opening(binary_img=binary_img, k_size=2, iterations=1)
+            # opened = cv_functions.opening(binary_img=binary_img, k_size=2, iterations=1)
             # cv2.imshow("opened", opened)
 
-            closed = cv_functions.closing(binary_img=opened, k_size=4, iterations=3)
+            # closed = cv_functions.closing(binary_img=opened, k_size=4, iterations=2)
             # cv2.imshow("closed", closed)
 
             cus_opened = cv_functions.custom_opeing(binary_img=binary_img, ero_size=3, dil_size=7, iterations=1)
             # cv2.imshow("cus_opened", cus_opened)
 
-            cus_closed = cv_functions.custom_closing(binary_img=binary_img, ero_size=3, dil_size=5, iterations=1)
+            # cus_closed = cv_functions.custom_closing(binary_img=binary_img, ero_size=3, dil_size=5, iterations=1)
             # cv2.imshow("cus_closed", cus_closed)
 
             contours, _ = cv_functions.contouring(binary_img=cus_opened)
