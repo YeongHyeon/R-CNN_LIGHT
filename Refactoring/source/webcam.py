@@ -32,14 +32,14 @@ def draw_predict_boxes(boxes=None):
         txt_color = (100, 100, 100)
         if((result == "open") or (result == "close")):
             eye += 1
-            if(eye > 2):
-                break
+            # if(eye > 2):
+                # break
             if(result == "open"):
                 txt_color = (255, 0, 0)
             elif(result == "close"):
                 txt_color = (0, 0, 255)
 
-            # cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
+            cv2.rectangle(frame,(x,y),(x+w,y+h),(255, 255, 255),1)
             cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 3)
             cv2.putText(frame, result+" "+str(int(acc*100))+"%", (x, y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, txt_color, 2)
         # else:
@@ -86,7 +86,7 @@ def region_predict(origin=None, contours=None, sess=None, x_holder=None, trainin
     for cnt in contours:
 
         area = cv2.contourArea(cnt)
-        if((area < 50) or (area > 2500)):
+        if((area < 200) or (area > 5000)):
             continue
 
         x, y, w, h = cv2.boundingRect(cnt)

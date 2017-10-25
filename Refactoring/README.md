@@ -5,6 +5,11 @@
 Example of eye blink recognition.
 </p>
 
+<p>
+The model of this system is following
+<img src="readme/model.png"></br>
+</p>
+
 <h2>Requirments</h2>
 <p>
 Python 2.x</br>
