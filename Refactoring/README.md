@@ -5,6 +5,11 @@ The model of this system is following
 <img src="readme/model.png"></br>
 </p>
 
+<p>
+The procedure of this system is following
+<img src="readme/procedure.png"></br>
+</p>
+
 <h2>Requirments</h2>
 <p>
 Python 2.x</br>
