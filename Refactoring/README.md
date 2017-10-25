@@ -1,12 +1,12 @@
 <h1>R-CNN_LIGHT</h1>
 
 <p>
-The model of this system is following
+The model of this system is following</br>
 <img src="readme/model.png"></br>
 </p>
 
 <p>
-The procedure of this system is following
+The procedure of this system is following</br>
 <img src="readme/procedure.png"></br>
 </p>
 
